@@ -1,9 +1,7 @@
-﻿using ROCK_PAPER_SCISSOR.Business.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ROCK_PAPER_SCISSOR.Business.Exceptions;
+using ROCK_PAPER_SCISSOR.Business.Extension;
 
 namespace ROCK_PAPER_SCISSOR.Business
 {
@@ -16,42 +14,73 @@ namespace ROCK_PAPER_SCISSOR.Business
             /// - - Detalhes do Jogador
 
             string[][][] brackets = new string[][][] {
-                new string[][]{
+                new string[][]
+                {
                     new string[] { "Armando", "P"},
-                    new string[] { "Richard", "R"},
+                    new string[] { "Dave", "S"},
                 },
 
-                new string[][]{
-                    new string[] { "Allen", "P"},
-                    new string[] { "David", "P"},
+                new string[][]
+                {
+                    new string[] { "Richard", "R"},
+                    new string[] { "Michael", "S"},
+                },
+
+                new string[][]
+                {
+                    new string[] { "Allen", "S"},
+                    new string[] { "Omer", "P"},
+                },
+
+                new string[][]
+                {
+                    new string[] { "David E.", "R"},
+                    new string[] { "Richard X.", "P"},
                 }
             };
 
-            rps_game_winner(brackets);
+            var winner = rps_game_winner(brackets);
         }
 
         public string[] rps_game_winner(string[][][] brackets)
         {
-            validade_players_strategy(brackets);
+            var winners = new List<string[]>();
 
-            return null;
+            foreach (var players in brackets)
+                winners.Add(get_winner(players));
+
+            if (winners.Count == 1)
+                return winners[0];
+
+            return rps_game_winner(players_to_brackets(winners.ToArray()));
         }
 
-        private void validade_players_strategy(string[][][] brackets)
+        private string[][][] players_to_brackets(string[][] players)
         {
-            foreach(var players in brackets)
-            {
-                if (players.Length != 2)
-                    throw new WrongNumberOfPlayersError();
+            var brackets = new List<string[][]>();
 
-                foreach (var player in players)
+            for (int i = 0; i < players.Length; i += 2)
+            {
+                string[][] bracket = new string[][]
                 {
-                    if (player[1].ToUpper() == "R" || player[1].ToUpper() == "P" || player[1].ToUpper() == "S")
-                        continue;
-                    else
-                        throw new NoSuchStrategyError();
-                }
+                    players[i],
+                    players[i + 1]
+                };
+
+                brackets.Add(bracket);
             }
+
+            return brackets.ToArray();
+        }
+
+        private string[] get_winner(string[][] players)
+        {
+            if (players.Length != 2)
+                throw new WrongNumberOfPlayersError();
+
+            if (players[0][1].ToUpper() == players[1][1].ToUpper())
+                return players[0];
+            return players[0][1].StrategyWinsAgainst(players[1][1]) ? players[0] : players[1];
         }
     }
 }
