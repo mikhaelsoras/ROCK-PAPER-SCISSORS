@@ -1,4 +1,5 @@
-﻿using ROCK_PAPER_SCISSOR.Business;
+﻿using Newtonsoft.Json;
+using ROCK_PAPER_SCISSOR.Business;
 using System;
 using System.Windows;
 
@@ -22,7 +23,7 @@ namespace ROCK_PAPER_SCISSORS
             {
                 Game game = new Game();
                 var winner = game.rps_game_winner(tbInput.Text);
-                MessageBox.Show($"Winner: {winner[0]}");
+                MessageBox.Show(JsonConvert.SerializeObject(winner));
             }
             catch (Exception e)
             {
