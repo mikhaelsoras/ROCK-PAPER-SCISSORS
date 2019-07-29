@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="tbInput">[[[["Armando","P"],["Dave","S"]],[["Richard","R"],["Michael","S"]],[["Allen","S"],["Omer","P"]],[["David E.","R"],["Richard X.","P"]]]]</TextBox>
+        <Button Grid.Row="1" Click="BtnStartTournamentClick">Start Tournament</Button>
     </Grid>
 </Window>
