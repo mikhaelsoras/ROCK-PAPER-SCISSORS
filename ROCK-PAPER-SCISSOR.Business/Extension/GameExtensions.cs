@@ -33,22 +33,13 @@ namespace ROCK_PAPER_SCISSOR.Business.Extension
             switch (strategy.ToUpper())
             {
                 case "R":
-                    if (counter_strategy.ToUpper() == "S")
-                        return true;
-                    else
-                        return false;
+                    return counter_strategy.ToUpper() == "S";
 
                 case "P":
-                    if (counter_strategy.ToUpper() == "R")
-                        return true;
-                    else
-                        return false;
+                    return counter_strategy.ToUpper() == "R";
 
                 case "S":
-                    if (counter_strategy.ToUpper() == "P")
-                        return true;
-                    else
-                        return false;
+                    return counter_strategy.ToUpper() == "P";
 
                 default:
                     throw new NoSuchStrategyError();
